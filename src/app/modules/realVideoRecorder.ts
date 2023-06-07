@@ -82,39 +82,7 @@ export class VideoRecorder {
             controller.enqueue(e.data);
           }
         };
-
-        this._recorder.addEventListener("clientSesssionInfo", (e: any) => {
-          controller.enqueue(e.data.clientInfo);
-        });
-
-        this._recorder.addEventListener("stopVideo", () => {
-          controller.enqueue("stopVideo");
-        });
-
-        this._recorder.addEventListener("endStream", () => {
-          controller.close();
-        });
       },
     });
-
-    this.recorderStarted = new Promise((resolve) => {
-      this._recorder.onstart = () => {
-        this.recorderStartTimestamp = Date.now();
-        resolve();
-      };
-    });
-
-    this._recorderStopped = new Promise((resolve) => {
-      this._recorder.onstop = () => {
-        this.recorderEndTimestamp = Date.now();
-        resolve();
-      };
-    });
-
-    this._recorder.onerror = () => {
-      if (this.getState() !== "stopped") {
-        this.stop();
-      }
-    };
   }
 }

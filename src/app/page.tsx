@@ -11,22 +11,17 @@ export default function Home() {
 
   useEffect(() => {
     async function main() {
-      // const provider = new LivenessStreamProvider('sessionId', { accessKeyId: 'any', secretAccessKey: 'any', sessionToken: 'any' });
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: false,
       });
-      const provider = new LivenessStreamProvider("asdf", 'us-east-1', stream, videoRef.current!);
-      // const responseStream = await provider.getResponseStream();
-      // videoRef.current!.srcObject = stream;
-      // videoRef.current!.oncanplay = async () => {
-      //   (recorder.current as any) = new VideoRecorder(stream);
-      //   recorder.current!.start(200);
-      //   provider.streamLivenessVideo(recorder.current!.recordedVideoStream!).catch(e => {
-      //     console.error(e);
-      //     recorder.current?.destroy();
-      //   });
-      // };
+
+      videoRef.current!.srcObject = stream;
+      videoRef.current!.oncanplay = async () => {
+        (recorder.current as any) = new VideoRecorder(stream);
+        recorder.current!.start(200);
+        const provider = new LivenessStreamProvider("ee64b973-d0ef-4365-b61e-a3cdf7f1c7b0", 'us-east-1', stream, videoRef.current!);
+      };
     }
 
     main();
